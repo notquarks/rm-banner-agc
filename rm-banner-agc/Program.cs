@@ -30,10 +30,8 @@ internal class Program
         {
             Console.WriteLine("config not found, creating...");
             File.Create(".\\banner_cfg.ini").Close();
-            //Thread.Sleep(250);
             data["Config"]["delay"] = delay.ToString();
             data["Config"]["path"] = ".\\injector.exe";
-            //Thread.Sleep(1250);
             parser.WriteFile(".\\banner_cfg.ini", data);
             Console.WriteLine("banner_cfg.ini created");
         }
@@ -67,25 +65,18 @@ internal class Program
         Thread.Sleep(delay);
         Console.WriteLine("Scanning Pattern");
         m.OpenProcess("GenshinImpact");
-        //Console.WriteLine("Value for CLibrary.dll+395F68 address is " + m.ReadMemory<int>("CLibrary.dll+395F68").ToString());
-
-
-        //foreach (long res in AoBScanResults)
-        //{
-        //    Console.Write("I found the address {0} in the AoB scan.", res, null);
-        //    Console.WriteLine("Value for our address is " + m.ReadMemory<int>(res.ToString("X")).ToString());
-        //}
+        //Console.WriteLine("Value for CLibrary.dll+395F68 is " + m.ReadMemory<int>("CLibrary.dll+395F68").ToString());
         
-        long SingleAobScanResult = (await m.AoBScan(pattern, true, true)).FirstOrDefault();
-        while (SingleAobScanResult.ToString() == "0")
+        long aobScanRes = (await m.AoBScan(pattern, true, true)).FirstOrDefault();
+        while (aobScanRes.ToString() == "0")
         {
-            SingleAobScanResult = (await m.AoBScan(pattern, true, true)).FirstOrDefault();
+            aobScanRes = (await m.AoBScan(pattern, true, true)).FirstOrDefault();
             Thread.Sleep(250);
             m.OpenProcess("GenshinImpact");
         }
-        Console.Write("Address found", SingleAobScanResult, null);
-        Console.WriteLine("Value : " + m.ReadMemory<int>(SingleAobScanResult.ToString("X")).ToString());
-        m.WriteMemory(SingleAobScanResult.ToString("X"), "int", "0");
+        Console.Write("Address found", aobScanRes, null);
+        Console.WriteLine("Value : " + m.ReadMemory<int>(aobScanRes.ToString("X")).ToString());
+        m.WriteMemory(aobScanRes.ToString("X"), "int", "0");
         Console.WriteLine("Banner Removed");
         m.CloseProcess();
         isClosing = true;
