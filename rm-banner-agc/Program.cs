@@ -22,7 +22,7 @@ internal class Program
     
     public static async Task Main(string[] args)
     {
-        Int32 delay = 25000;
+        Int32 delay = 28000;
         String path;
         var parser = new FileIniDataParser();
         IniData data = new IniData();
@@ -95,7 +95,6 @@ internal class Program
 
     static async void HideGenshinImpactWindow(IntPtr hWndGenshin)
     {
-        
             for (int i = 0; i < 200; i++)
             {
                 if (isClosing)
