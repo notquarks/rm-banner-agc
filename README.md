@@ -1,1 +1,1 @@
-# rm-banner-agc
+# remove banner from *redacted*
