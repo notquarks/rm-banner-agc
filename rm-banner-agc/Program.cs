@@ -95,8 +95,6 @@ internal class Program
 
     static async void HideGenshinImpactWindow(IntPtr hWndGenshin)
     {
-        //Process thisProcess = Process.GetProcessesByName("delay-launch")[0];
-        //hide window for sometime with interval
         
             for (int i = 0; i < 200; i++)
             {
@@ -104,13 +102,9 @@ internal class Program
                 {
                     break;
                 }
-                //Console.WriteLine("Hiding window for {0} seconds", i);
                 ShowWindow(hWndGenshin, 0);
                 await Task.Delay(130);
-                //Thread.Sleep(130);
             }
-            //Console.WriteLine("Hide Function Complete");
-        
     }
 
 }
