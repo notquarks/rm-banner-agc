@@ -19,7 +19,7 @@ path = .\injector.exe<br/>
 <br/>
 
 [en]
-1. ract the zip file into a folder containing injector.exe
+1. extract the zip file into a folder containing injector.exe
 2. launch remove banner.exe
 3. Wait until the game opens
 
