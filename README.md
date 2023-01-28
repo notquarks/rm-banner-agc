@@ -17,7 +17,8 @@ path = .\injector.exe<br/>
 <br/>
 
 cara kerjanya:
-program bakal launch injector.exe, terus bakal hide window game, abis tu nunggu injectornya load clibrary baru program bakal scan pattern terus write valuenya
+program bakal launch injector.exe, terus bakal hide window game, abis tu nunggu injectornya load clibrary baru program bakal scan pattern terus write valuenya<br/>
+Kalo clibrary belom ke load bakal stuck di scanning pattern
 
 [en]
 1. extract the zip file into a folder containing injector.exe
