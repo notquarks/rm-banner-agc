@@ -37,3 +37,13 @@ path = .\injector.exe<br/>
 tutorial vid if needed https://www.youtube.com/watch?v=iHT12x33vzk
 
 https://user-images.githubusercontent.com/81660242/214856689-c4717213-5cee-41a8-9a99-e00f7094d5e5.mp4
+
+Alternative version if didnt work
+1. launch injector
+2. wait the banner to show up
+3. run the program
+
+https://user-images.githubusercontent.com/81660242/215239607-4324b1cc-a023-476b-890b-a053bd13b54f.mp4
+
+
+
