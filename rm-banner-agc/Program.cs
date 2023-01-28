@@ -13,23 +13,26 @@ internal class Program
 
     [DllImport("User32")]
     static extern int ShowWindow(IntPtr hwnd, int nCmdShow);
-    
-    public static async Task Main(string[] args)
+
+    static public void Main(string[] args)
     {
         if(FindWindow(null, "Genshin Impact") != IntPtr.Zero)
         {
             Console.WriteLine("Genshin Impact window found!");
             Console.WriteLine("Scanning Pattern...");
             Mem m = new Mem();
-            string pattern = "01 00 00 00 80 07 00 00 38 04 00 00 00 03 00 00";
+            //string pattern = "01 00 00 00 80 07 00 00 38 04 00 00 00 03 00 00";
             m.OpenProcess("GenshinImpact");
-            long aobScanRes = (await m.AoBScan(pattern, true, true)).FirstOrDefault();
-            Console.Write("Address found", aobScanRes, null);
-            Console.WriteLine("Value : " + m.ReadMemory<int>(aobScanRes.ToString("X")).ToString());
-            m.WriteMemory(aobScanRes.ToString("X"), "int", "0");
+            Thread.Sleep(250);
+            Console.WriteLine("CLibrary.dll+395F68 value : " + m.ReadMemory<int>("CLibrary.dll+395F68").ToString());
+            //long aobScanRes = (await m.AoBScan("CLibrary.dll + 395F68", true, true)).FirstOrDefault();
+            //Console.Write("Address found", aobScanRes, null);
+            m.WriteMemory("CLibrary.dll+395F68", "int", "0");
+            Console.WriteLine("CLibrary.dll+395F68 value : " + m.ReadMemory<int>("CLibrary.dll+395F68").ToString());
             Console.WriteLine("Banner Removed");
             m.CloseProcess();
-            return;
+            Console.WriteLine("You can close this");
+            Console.ReadLine();
         }
         else
         {
