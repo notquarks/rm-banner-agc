@@ -26,6 +26,7 @@ internal class Program
         String path;
         var parser = new FileIniDataParser();
         IniData data = new IniData();
+        Mem m = new Mem();
         if (!File.Exists(".\\banner_cfg.ini"))
         {
             Console.WriteLine("config not found, creating...");
@@ -35,20 +36,21 @@ internal class Program
             parser.WriteFile(".\\banner_cfg.ini", data);
             Console.WriteLine("banner_cfg.ini created");
         }
-
+        delay = 5000;
         data = parser.ReadFile(".\\banner_cfg.ini");
-        delay = Int32.Parse(data["Config"]["delay"]);
         path = data["Config"]["path"];
-
-        Process acrepiProcess = new Process();
-        acrepiProcess.StartInfo.FileName = path;
-        acrepiProcess.StartInfo.UseShellExecute = true;
-        acrepiProcess.StartInfo.Verb = "runas";
-        acrepiProcess.Start();
-
+        if (!m.OpenProcess("GenshinImpact"))
+        {
+            Process acrepiProcess = new Process();
+            acrepiProcess.StartInfo.FileName = path;
+            acrepiProcess.StartInfo.UseShellExecute = true;
+            acrepiProcess.StartInfo.Verb = "runas";
+            acrepiProcess.Start();
+            delay = Int32.Parse(data["Config"]["delay"]);
+        }
         //String pattern = "01 00 ?? 00 80 07";
-        string pattern = "01 00 00 00 80 07 00 00 38 04 00 00 00 03 00 00";
-        Mem m = new Mem();
+        //string pattern = "01 00 00 00 80 07 00 00 38 04 00 00 00 03 00 00";
+        String offset = "CLibrary.dll+395F68";
         IntPtr hWnd = FindWindow(null, "Genshin Impact");
 
         while (hWnd == IntPtr.Zero)
@@ -59,29 +61,36 @@ internal class Program
         }
         Console.WriteLine("\nWindow Found");
         Thread.Sleep(5000);
-        HideGenshinImpactWindow(hWnd);
-        ShowWindow(hWnd, 0);
-        Console.WriteLine("Hide Window");
+        //HideGenshinImpactWindow(hWnd);
+        //Console.WriteLine("Hide Window");
+        Console.WriteLine("Waiting clibrary to load...");
         Thread.Sleep(delay);
-        Console.WriteLine("Scanning Pattern");
         m.OpenProcess("GenshinImpact");
         //Console.WriteLine("Value for CLibrary.dll+395F68 is " + m.ReadMemory<int>("CLibrary.dll+395F68").ToString());
-        
-        long aobScanRes = (await m.AoBScan(pattern, true, true)).FirstOrDefault();
-        while (aobScanRes.ToString() == "0")
+        int offsetValue = m.ReadMemory<int>("CLibrary.dll+395F68");
+        int count = 0;
+        while (offsetValue != 1)
         {
-            aobScanRes = (await m.AoBScan(pattern, true, true)).FirstOrDefault();
-            Thread.Sleep(250);
+            offsetValue = m.ReadMemory<int>("CLibrary.dll+395F68");
+            Console.Write($"\rReading offset value ... ({count})");
+            count++;
+            Thread.Sleep(2000);
             m.OpenProcess("GenshinImpact");
+            if (count == 15)
+            {
+                Console.WriteLine("\nTimeout");
+                Console.WriteLine("Try close and relaunch this program");
+                Thread.Sleep(5000);
+                return;
+            }
         }
-        Console.Write("Address found", aobScanRes, null);
-        Console.WriteLine("Value : " + m.ReadMemory<int>(aobScanRes.ToString("X")).ToString());
-        m.WriteMemory(aobScanRes.ToString("X"), "int", "0");
-        Console.WriteLine("Banner Removed");
+        m.WriteMemory(offset, "int", "0");
+        Console.WriteLine("\nBanner Removed");
         m.CloseProcess();
-        isClosing = true;
-        ShowWindow(hWnd, 5);
-        return;
+        //isClosing = true;
+        //ShowWindow(hWnd, 5);
+        Console.WriteLine("You can close this window");
+        Console.ReadLine();
     }
 
     static async void HideGenshinImpactWindow(IntPtr hWndGenshin)
