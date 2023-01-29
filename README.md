@@ -4,21 +4,9 @@ cara [id]:
 2. launch remove banner.exe
 3. tunggu sampe game ke buka
 
-
-Kalo stuck di scanning pattern bisa ganti value di banner_cfg.ini ke value yang lebih besar
-contoh: <br/>
-[Config]<br/>
-delay = 28000<br/>
-path = .\injector.exe<br/>
-jadi<br/>
-[Config]<br/>
-delay = 35000<br/>
-path = .\injector.exe<br/>
-<br/>
-
 <h3>Kalo ngga work bisa pake remove-banner-alt</h3>
 
-[en]
+tutorial [en]
 1. extract the zip file into a folder containing injector.exe
 2. launch remove banner.exe
 3. Wait until the game opens
