@@ -11,8 +11,6 @@ tutorial [en]
 2. launch remove banner.exe
 3. Wait until the game opens
 
-tutorial vid if needed https://www.youtube.com/watch?v=iHT12x33vzk
-
 https://user-images.githubusercontent.com/81660242/214856689-c4717213-5cee-41a8-9a99-e00f7094d5e5.mp4
 
 <h4> Alternative version if didnt work </h4>
